@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <span>
+                hello
+            </span>
+        </div>
+        <script>
+            let node=document.querySelector('div')
+            let nodeobj = node.querySelector('span')  
+            nodeobj.textContent = 'Now Changed!!!'
+            console.log(nodeobj)
+            node.appendChild(nodeobj)
+        </script>
+    </body>
+</html>
