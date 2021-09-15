@@ -1,4 +1,5 @@
 var numOfQuestions = 10
+var targetSynonym;
 var listOfWords=[]
 var currentQuestion = 0
 var mainPage = document.querySelector('.active')
@@ -35,7 +36,7 @@ function getWord(){
         for (var i=0 ; i < numOfQuestions; i++){
             var getRandIndex = uniqueRand(arrayOfChosenIndex,dataLength)
             arrayOfChosenIndex.push(getRandIndex)
-            listOfWords.push(result.data[getRandIndex])
+            listOfWords.push(result.data[getRandIndex].toUpperCase())
         }
         
         getSyn()
@@ -56,7 +57,7 @@ function getSyn(){
     fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${searchWord}?key=b993a7fe-7718-4827-b933-c0283f6cc94b`)
     .then(response=>response.json())
     .then(data => {
-        targetSynonym=data[0]?.meta?.syns[0][2]
+        targetSynonym=data[0]?.meta?.syns[0][2].toUpperCase()
         console.log(targetSynonym)
         
         if (targetSynonym){
@@ -189,13 +190,13 @@ function dragStart(){
 function dragEnter(){
 
     console.log('drag enters')
+    this.style.opacity = "0.6"
 }
 function dragOver(e){
     e.preventDefault()
 }
 function dragDrop(){
-
-    console.log('object is dropped')
+    this.style.opacity = "1"
     droppedObj = this.getAttribute('data-resultid')
     if (droppedObj !== null){
         this.classList.add("wrong-result-box")
@@ -224,11 +225,21 @@ function dragDrop(){
         })
 
         if (arrOfTipsIndex.length === arrOfOptions.length){
+            let className;
             if (!wrong){
-                document.querySelectorAll('.result').forEach(function(result){
-                    result.classList.add("active-result")
-                })
+                className = "active-result"
+            }else{
+                className = "wrong-result"
             }
+            document.querySelectorAll('.result').forEach(function(result){
+                result.classList.add(className)
+            })
+
+            answer.innerHTML=targetSynonym
+            answer.style.display="block"
+            setTimeout(function(){
+                location.reload()
+            },5000)
         }
     }
     // if ( droppedObjIndex === draggedObjIndex){
@@ -239,5 +250,5 @@ function dragDrop(){
 
 function dragLeave(){
 
-    console.log('drag leaves')
+    this.style.opacity = "1"
 }
