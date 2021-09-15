@@ -33,25 +33,39 @@
     animation: loader 1s ease-in;
     animation-fill-mode:both;
     animation-iteration-count: infinite;
-    color:red;
+    -webkit-text-fill-color: transparent;
     font-family: 'Orbitron', sans-serif;
-
-
 
 }
 
 #red{
-    color:red;
+    
+    background: -webkit-linear-gradient(45deg,red,green);
+    background-clip: text;
+ 
+
 }
 #green{
-    color:green;
+    
+    background: -webkit-linear-gradient(blue,green);
+    background-clip: text;
+    
+
 }
 #blue{
-    color:blue;
+    
+    background: -webkit-linear-gradient(90deg,blue,red);
+    background-clip: text;
+    
+
 
 }
 #purple{
-    color:purple;
+    
+    background: -webkit-linear-gradient(45deg,red,purple);
+    background-clip: text;
+    
+
 }
 
 
