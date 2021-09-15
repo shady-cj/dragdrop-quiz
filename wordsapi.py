@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 @app.get('/')
-def hello():
+def word():
     
     url = "https://www.ef.com/wwen/english-resources/english-vocabulary/top-3000-words/"
 
