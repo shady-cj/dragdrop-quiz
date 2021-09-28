@@ -5,7 +5,7 @@
             <link href='styles.css' rel='stylesheet'>
             <meta name="viewport" content= "width = device-width, initial-scale=1.0">
         </head>
-        <body class='flex'>
+        <body class='flex background-img'>
             <section class='active hide'>
 
                 <section>
@@ -32,10 +32,28 @@
 
             </section>
         
-            <section class='loader'>
+            <section class='loader hide'>
                 <h1><span id="red">GET</span> <span id="blue">FAMILIAR</span> <span id="green">WITH</span> <span id="purple">WORDS</span></h1>
             </section>
+            <section class='intro-section'>
+                <button id='skip'>Skip <span>&raquo;</span></button>
+                <p class= 'intro red hide'>This word quiz was created for you to have fun and get to know <br>how silly some words you don't think<br> are related gets to be. </p>
+                <p class = 'intro blue hide'>You can check out thesaurus for more hints<br> afterall it was scooped from <br>there  🙃 </p>
+                <p class = 'intro green hide'> Are you Ready?</p>
+                <p class='intro introBtn btn-p hide'><button> Let's Have Fun</button></p>
 
+            </section>
+            <section class='hide revision'>
+                <table>
+                    <caption>RESULT LOG</caption>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th> Your Answer</th>
+                    </tr>
+                </table>
+
+            </section>
         </body>
         <script src='quiz.js'></script>
         <script src='DragDropTouch.js'></script>

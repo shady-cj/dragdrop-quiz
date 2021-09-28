@@ -1,13 +1,19 @@
 var numOfQuestions = 10
 var targetSynonym;
 var listOfWords=[]
+var arrOfAnswers = []
+var arrOfUsersAnswers =[]
 var currentQuestion = 0
+var introSection = document.querySelector('.intro-section')
+var intros = document.querySelectorAll('.intro')
 var mainPage = document.querySelector('.active')
 var pageBody = document.body
+var revision = document.querySelector('.revision')
 var Loader = document.querySelector(".loader")
 var question=document.getElementById("question")
 var answer=document.getElementById("answer")
 var optBox = document.getElementById("optionsbox")
+var skip = document.getElementById("skip")
 var arrOfOptions;
 var resultBox = document.querySelector('.resultbox')
 var arrOfOptionsEl = []
@@ -15,15 +21,73 @@ var arrOfTipsIndex =[]
 
 var wrong = false
 
-
+let indexOfIntro = 0
+let introsLength = intros.length
 
 // api key = b993a7fe-7718-4827-b933-c0283f6cc94b
+initializer()
+
+skip.addEventListener('click',function(){
+    startWorker()
+})
+
+function initializer(){
+    
+    if (indexOfIntro < introsLength){
+        setTimeout(function(){
+            displayIntro(indexOfIntro)
+        },1000)
+    }
+    
+    
+}
 
 
-getWord()
 
 
 
+function displayIntro(ind){
+
+
+    intros.forEach(function(eachIntro,index){
+        if (index === ind){
+            eachIntro.classList.remove('hide')
+            eachIntro.style.animationPlayState = 'running'
+
+            eachIntro.addEventListener('animationend',function(){
+
+                    setTimeout(function(){
+                        if (!eachIntro.classList.contains('btn-p')){
+                            eachIntro.classList.add('hide')
+                            indexOfIntro++
+                            initializer()
+                        }else{
+                                                        
+                            document.querySelector('.btn-p button').addEventListener('click', function(){
+                                startWorker()
+                            })
+
+                        }
+                            
+                       
+    
+                    
+                    }, 1000)
+
+     
+            })
+        
+        }
+    })
+}
+
+
+function startWorker(){
+    introSection.classList.add('hide')
+    Loader.classList.remove('hide')
+    document.body.classList.remove('background-img')
+    getWord()
+}
 
 
 
@@ -38,7 +102,6 @@ function getWord(){
             arrayOfChosenIndex.push(getRandIndex)
             listOfWords.push(result.data[getRandIndex].toUpperCase())
         }
-        
         getSyn()
     })
         
@@ -46,23 +109,26 @@ function getWord(){
         console.log(err)
    
     })
-
+  
 
 
 }
 
 function getSyn(){
+
     searchWord = listOfWords[currentQuestion]
     console.log(searchWord)
     fetch(`https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${searchWord}?key=b993a7fe-7718-4827-b933-c0283f6cc94b`)
     .then(response=>response.json())
     .then(data => {
-        targetSynonym=data[0]?.meta?.syns[0][2].toUpperCase()
+        targetSynonym=data[0]?.meta?.syns[0][1].toUpperCase()
         console.log(targetSynonym)
         
         if (targetSynonym){
+            arrOfAnswers.push(targetSynonym)
             question.innerHTML = `What is the synonym of the word <b style='color:red'> <i> ${searchWord} </i></b>`
             arrOfOptions=targetSynonym.trim().split('')
+        
             getArrayNumRange()
             getEachLetter()
             pageBody.classList.remove('flex')
@@ -72,10 +138,18 @@ function getSyn(){
 
         }else{
             currentQuestion++
+            arrOfAnswers.push(undefined)
 
             return getSyn()
         }
+
     })
+    .catch(err=>{
+        currentQuestion++
+        arrOfAnswers.push(undefined)
+        return getSyn()
+
+    }) 
     return;
 }
 
@@ -102,7 +176,6 @@ function getEachLetter(){
         
     })
 
-    
     getEachEl()
 
 }
@@ -182,14 +255,12 @@ var draggedObjContent, droppedObj,arrOfElId;
 
 function dragStart(){
 
-    console.log('drag starts')
     draggedObjContent = this.textContent
     arrOfElId= this.getAttribute("data-id")
 }
 
 function dragEnter(){
 
-    console.log('drag enters')
     this.style.opacity = "0.6"
 }
 function dragOver(e){
@@ -219,28 +290,67 @@ function dragDrop(){
         this.setAttribute('data-resultid',answerId)
         arrOfOptionsEl[arrOfElId].style.visibility = "hidden"
         this.classList.add('dropped')
+       
         this.addEventListener('animationend',function(){
 
             this.classList.remove('dropped')
+            this.classList.add('filled')
+
+
+
+            if (arrOfTipsIndex.length === arrOfOptions.length){
+                let className;
+                if (!wrong){
+                    className = "active-result"
+                }else{
+                    className = "wrong-result"
+                }
+                document.querySelectorAll('.result').forEach(function(result){
+                    result.classList.remove('filled')
+                    result.classList.add(className)
+                })
+    
+                answer.innerHTML=targetSynonym
+                answer.style.display="block"
+                wrong=false
+                let usersWord = ''
+                document.querySelectorAll('.result').forEach(function(result){
+                    usersWord+=result.textContent
+                })
+                arrOfUsersAnswers.push(usersWord)
+
+
+
+                if (currentQuestion<numOfQuestions-1){
+                    currentQuestion++
+                    setTimeout(function(){
+                        answer.style.display="none"
+                        mainPage.classList.add('hide')
+                        pageBody.classList.add('flex')
+                        Loader.classList.remove('hide')
+                     
+                        document.querySelectorAll('.result').forEach(function(result){
+                            result.remove()
+                        })
+                        arrOfOptionsEl = []
+                        optBox.innerHTML = ''
+                        getSyn()
+                        // location.reload()
+                    },5000)
+                }
+                  
+                else{
+    
+                    setTimeout(displayResult,3000)
+                }
+                
+              
+            }
+
+            
         })
 
-        if (arrOfTipsIndex.length === arrOfOptions.length){
-            let className;
-            if (!wrong){
-                className = "active-result"
-            }else{
-                className = "wrong-result"
-            }
-            document.querySelectorAll('.result').forEach(function(result){
-                result.classList.add(className)
-            })
 
-            answer.innerHTML=targetSynonym
-            answer.style.display="block"
-            setTimeout(function(){
-                location.reload()
-            },5000)
-        }
     }
     // if ( droppedObjIndex === draggedObjIndex){
     //     console.log(this)
@@ -253,3 +363,40 @@ function dragLeave(){
     this.style.opacity = "1"
 }
 
+
+function displayResult(){
+
+    let mainTable = document.querySelector('table')
+    let indexOfUndefined =[]
+    arrOfAnswers.forEach(function(val,index){
+        if (val === 'undefined'){
+            
+            indexOfUndefined.push(index)
+        }
+
+    })
+    indexOfUndefined.forEach(function(ind){
+        arrOfAnswers.splice(ind,1)
+        listOfWords.splice(ind,1)
+    })
+    
+    console.log(arrOfAnswers)
+    console.log(listOfWords)
+    for(let i=0; i<listOfWords.length;i++){
+
+        let classForUser = arrOfAnswers[i].trim() === arrOfUsersAnswers[i].trim()? 'rightAnswer':'wrongAnswer'
+        let row = document.createElement('tr')
+        row.innerHTML = `
+            <td class= 'initialQuestion'> ${listOfWords[i]}</td>
+            <td class='initialAnswer'> ${arrOfAnswers[i]}</td>
+            <td class='${classForUser}'> ${arrOfUsersAnswers[i]}</td>
+        `
+
+        mainTable.append(row)
+    }
+    
+    revision.classList.remove('hide')
+    mainPage.classList.add('hide')
+    Loader.classList.add('hide')
+
+}
