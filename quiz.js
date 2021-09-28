@@ -369,16 +369,18 @@ function displayResult(){
     let mainTable = document.querySelector('table')
     let indexOfUndefined =[]
     arrOfAnswers.forEach(function(val,index){
-        if (val === 'undefined'){
+        if (val === undefined){
             
             indexOfUndefined.push(index)
         }
 
     })
+    console.log(indexOfUndefined)
     indexOfUndefined.forEach(function(ind){
         arrOfAnswers.splice(ind,1)
         listOfWords.splice(ind,1)
     })
+
     
     console.log(arrOfAnswers)
     console.log(listOfWords)
