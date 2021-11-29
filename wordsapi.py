@@ -10,7 +10,7 @@ origins = [
 
     "*"
 ]
-
+#  uvicorn wordsapi:app --port 3000
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

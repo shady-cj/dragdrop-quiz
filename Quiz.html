@@ -1,60 +1,57 @@
 <!DOCTYPE html>
-    <html>
-        <head>
-            <title></title>
-            <link href='styles.css' rel='stylesheet'>
-            <meta name="viewport" content= "width = device-width, initial-scale=1.0">
-        </head>
-        <body class='flex background-img'>
-            <section class='active hide'>
+<html>
+  <head>
+    <title></title>
+    <link href="styles.css" rel="stylesheet" />
+    <meta name="viewport" content="width = device-width, initial-scale=1.0" />
+  </head>
+  <body class="flex background-img">
+    <section class="active hide">
+      <section>
+        <h1>QUESTIONS...</h1>
+        <div id="question"></div>
+        <div id="optionsbox"></div>
+      </section>
+      <section id="result-section">
+        <div class="resultbox"></div>
 
-                <section>
-                    <h1>QUESTIONS...</h1>
-                    <div id='question'></div>
-                    <div id='optionsbox'>
-    
-    
-                    </div>
-                </section>
-                <section id='result-section'>
-                    <div class="resultbox">
-    
-    
-                    </div>
-    
-                    <div id="answer">
-                        
-                    
-                    
-                    </div>
-                </section>
+        <div id="answer"></div>
+      </section>
+    </section>
 
-
-            </section>
-        
-            <section class='loader hide'>
-                <h1><span id="red">GET</span> <span id="blue">FAMILIAR</span> <span id="green">WITH</span> <span id="purple">WORDS</span></h1>
-            </section>
-            <section class='intro-section'>
-                <button id='skip'>Skip <span>&raquo;</span></button>
-                <p class= 'intro red hide'>This word quiz was created for you to have fun and get to know <br>how silly some words you don't think<br> are related gets to be. </p>
-                <p class = 'intro blue hide'>You can check out thesaurus for more hints<br> afterall it was scooped from <br>there  🙃 </p>
-                <p class = 'intro green hide'> Are you Ready?</p>
-                <p class='intro introBtn btn-p hide'><button> Let's Have Fun</button></p>
-
-            </section>
-            <section class='hide revision'>
-                <table>
-                    <caption>RESULT LOG</caption>
-                    <tr>
-                        <th>Question</th>
-                        <th>Answer</th>
-                        <th> Your Answer</th>
-                    </tr>
-                </table>
-
-            </section>
-        </body>
-        <script src='quiz.js'></script>
-        <script src='DragDropTouch.js'></script>
-    </html>
+    <section class="loader hide">
+      <h1>
+        <span id="red">GET</span> <span id="blue">FAMILIAR</span>
+        <span id="green">WITH</span> <span id="purple">WORDS</span>
+      </h1>
+    </section>
+    <section class="intro-section flex">
+      <button id="skip">Skip <span>&raquo;</span></button>
+      <p class="intro red hide">
+        This word quiz was created for you to have fun and get to know <br />how
+        silly some words you don't think<br />
+        are related gets to be.
+      </p>
+      <p class="intro blue hide">
+        You can check out thesaurus for more hints<br />
+        afterall it was scooped from <br />there 🙃
+      </p>
+      <p class="intro green hide">Are you Ready?</p>
+      <p class="intro introBtn btn-p hide"><button>Let's Have Fun</button></p>
+    </section>
+    <section class="hide revision">
+      <table>
+        <caption>
+          RESULT LOG
+        </caption>
+        <tr>
+          <th>Question</th>
+          <th>Answer</th>
+          <th>Your Answer</th>
+        </tr>
+      </table>
+    </section>
+  </body>
+  <script src="quiz.js"></script>
+  <script src="DragDropTouch.js"></script>
+</html>
